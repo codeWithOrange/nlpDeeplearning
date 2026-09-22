@@ -9,10 +9,11 @@ hello darling ,
 i am angad kumar maurya
 """
 
+
 doc = nlp(text)
+
 for sent in doc.sents:
     print(sent)
-
 print()
 for token in doc:
     print(token.text)

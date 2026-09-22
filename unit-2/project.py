@@ -7,8 +7,6 @@ from gensim.downloader import load
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 
-# 1. CORPUS
-
 sentences = [
     ["king", "is", "a", "man"],
     ["queen", "is", "a", "woman"],
@@ -34,8 +32,6 @@ sentences = [
 ]
 
 
-# 2. CBOW WORD2VEC
-
 cbow_model = Word2Vec(
     sentences=sentences,
     vector_size=100,
@@ -46,13 +42,10 @@ cbow_model = Word2Vec(
     epochs=100,
 )
 
-print("\n========== CBOW ==========")
 
 print("Embedding of cat:")
 print(cbow_model.wv["cat"])
 
-
-# 3. SKIP-GRAM WORD2VEC
 
 skipgram_model = Word2Vec(
     sentences=sentences,
@@ -64,15 +57,10 @@ skipgram_model = Word2Vec(
     epochs=100,
 )
 
-print("\n========== SKIP-GRAM ==========")
 
 print("Embedding of cat:")
 print(skipgram_model.wv["cat"])
 
-
-# 4. SEMANTIC SIMILARITY
-
-print("\n========== SEMANTIC SIMILARITY ==========")
 
 similarity = skipgram_model.wv.similarity("cat", "dog")
 
@@ -84,19 +72,11 @@ similarity = skipgram_model.wv.similarity("king", "queen")
 print("Similarity(king, queen):", similarity)
 
 
-# 5. MOST SIMILAR WORDS
-
-print("\n========== MOST SIMILAR WORDS ==========")
-
 print("Words similar to cat:")
 
 for word, score in skipgram_model.wv.most_similar("cat", topn=5):
     print(word, ":", score)
 
-
-# 6. WORD ANALOGY
-
-print("\n========== WORD ANALOGY ==========")
 
 result = skipgram_model.wv.most_similar(
     positive=["king", "woman"], negative=["man"], topn=5
@@ -107,10 +87,6 @@ print("king - man + woman ≈ ?")
 for word, score in result:
     print(word, ":", score)
 
-
-# 7. VECTOR SPACE MODEL
-
-print("\n========== VECTOR SPACE ==========")
 
 words = [
     "king",
@@ -135,10 +111,6 @@ print("Embedding dimensions:", vectors.shape[1])
 
 print("Vector matrix shape:", vectors.shape)
 
-
-# 8. PCA
-
-print("\n========== PCA ==========")
 
 pca = PCA(n_components=2)
 
@@ -165,10 +137,6 @@ plt.ylabel("Principal Component 2")
 plt.show()
 
 
-# 9. t-SNE
-
-print("\n========== t-SNE ==========")
-
 tsne = TSNE(n_components=2, perplexity=5, random_state=42)
 
 vectors_tsne = tsne.fit_transform(vectors)
@@ -191,12 +159,6 @@ plt.ylabel("Dimension 2")
 plt.show()
 
 
-# 10. GLOVE
-
-print("\n========== GLOVE ==========")
-
-print("Loading pretrained GloVe model...")
-
 glove_model = load("glove-wiki-gigaword-50")
 
 print("GloVe vector for 'king':")
@@ -204,33 +166,18 @@ print("GloVe vector for 'king':")
 print(glove_model["king"])
 
 
-# 11. GLOVE SIMILARITY
-
-print("\nGloVe Similarity")
-
 print("king vs queen:", glove_model.similarity("king", "queen"))
 
 print("cat vs dog:", glove_model.similarity("cat", "dog"))
 
-
-# 12. GLOVE MOST SIMILAR
-
-print("\nGloVe words similar to cat:")
 
 for word, score in glove_model.most_similar("cat", topn=5):
 
     print(word, ":", score)
 
 
-# 13. GLOVE ANALOGY
-
-print("\nGloVe Analogy")
-
 result = glove_model.most_similar(positive=["king", "woman"], negative=["man"], topn=5)
 
 for word, score in result:
 
     print(word, ":", score)
-
-
-print("\n========== PROGRAM FINISHED ==========")

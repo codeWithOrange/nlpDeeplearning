@@ -1,6 +1,5 @@
-# word to vec
-
 from gensim.models import Word2Vec
+from sklearn.manifold import TSNE
 
 print(dir(Word2Vec))
 sentences = [
@@ -11,13 +10,15 @@ sentences = [
     ["king", "is", "a", "man"],
     ["queen", "is", "a", "woman"],
 ]
+model1 = TSNE()
+print(model1)
 
 model = Word2Vec(
     sentences,
     vector_size=40,
     window=2,
     min_count=1,
-    sg=1,  # sg=1 means skip-gram and sg=0 means cbow
+    sg=1,
 )
 vector = model.wv["cat"]
 print(vector, len(vector))
@@ -32,10 +33,6 @@ result = model.wv.most_similar(positive=["king", "woman"], negative=["queen"], t
 print(result)
 
 
-# glov embedding
-
-
-# embedding visualization
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 
